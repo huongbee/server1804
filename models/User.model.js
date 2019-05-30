@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { hash, compare } = require('../lib/bcrypt')
 
 const UserSchema = new Schema({
     email: { 
@@ -30,5 +31,16 @@ const UserSchema = new Schema({
     ],
 })
 const UserModel = mongoose.model('user',UserSchema);
-module.exports = { UserModel }
+
+class User{
+    static async signUp(email, password, name){
+        const passwordHash = await hash(password)
+        if(!passwordHash) throw new Error('Cannot create user!')
+        const user = await UserModel.create({email, password: passwordHash, name })
+        if(!user) throw new Error('Cannot create user!')
+        return user;
+    }
+}
+
+module.exports = { UserModel, User }
 
