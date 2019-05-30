@@ -1,0 +1,8 @@
+{
+  "name": "server1804",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/huongnguyen08/server1804.git",
+  "author": "<huongnguyenak96@gmail.com>",
+  "license": "MIT"
+}
