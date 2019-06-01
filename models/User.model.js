@@ -38,7 +38,12 @@ class User{
         if(!passwordHash) throw new Error('Cannot create user!')
         const user = await UserModel.create({email, password: passwordHash, name })
         if(!user) throw new Error('Cannot create user!')
-        return user;
+        return {
+            _id: user._id,
+            email: user.email,
+            name: user.name,
+            avatar: user.avatar
+        };
     }
 }
 
