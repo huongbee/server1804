@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { hash, compare } = require('../lib/bcrypt')
+const { sign } = require('../lib/jwt')
 
 const UserSchema = new Schema({
     email: { 
@@ -50,7 +51,17 @@ class User{
         if(!user) throw new Error('Cannot find user!');
         const check = await compare(user.password, password)
         if(!check) throw new Error('Password invalid!');
-        
+        const token = await sign({ _id: user._id })
+        if(!token) throw new Error('Cannot sign token!');
+        return {
+            user: {
+                _id: user._id,
+                email: user.email,
+                name: user.name,
+                avatar: user.avatar
+            },
+            token
+        }
     }
 }
 
