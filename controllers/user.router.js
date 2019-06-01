@@ -17,5 +17,9 @@ router.post('/register',(req,res)=>{
         message: error.message
     }))
 })
+router.post('/login',(req,res)=>{
+    const { email, password } = req.body;
+    
+})
 
 module.exports = router;

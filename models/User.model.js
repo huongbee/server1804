@@ -45,6 +45,13 @@ class User{
             avatar: user.avatar
         };
     }
+    static async signIn(email, password){
+        const user = await UserModel.findOne(email)
+        if(!user) throw new Error('Cannot find user!');
+        const check = await compare(user.password, password)
+        if(!check) throw new Error('Password invalid!');
+        
+    }
 }
 
 module.exports = { UserModel, User }
