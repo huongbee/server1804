@@ -63,6 +63,25 @@ class User{
             token
         }
     }
+    static async sendFriendRequest(idReceiver, idSender){
+        const sender = await UserModel.findByIdAndUpdate(
+            { _id: idSender},
+            { 
+                $addToSet: { sendRequests: idReceiver}
+            },
+            { new: true }
+        ).select('name email')
+        if(!sender) throw new Error('Cannot send friend request!')
+        const receiver = await UserModel.findByIdAndUpdate(
+            { _id: idReceiver},
+            { 
+                $addToSet: { receiveRequests: sender._id}
+            },
+            { new: true }
+        ).select('name email')
+        if(!receiver) throw new Error('Cannot send friend request!')
+        return { sender,  receiver }
+    }
 }
 
 module.exports = { UserModel, User }

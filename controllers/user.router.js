@@ -36,11 +36,18 @@ router.post('/login',(req,res)=>{
 router.post('/send-friend-request',authenticte,(req,res)=>{
     const { idReceiver } = req.body;
     const idSender = req.idUser; // get from token
-    res.send({ 
+    User.sendFriendRequest(idReceiver, idSender)
+    .then(response=>res.send({ 
         code: 1,
-        data: { idReceiver, idSender },
+        data: response,
         message: ''
-    })
+    }))
+    .catch(error => res.send({ 
+        code: 0,
+        data: null,
+        message: error.message
+    }))
+    
 })
 
 router.post('/remove-send-friend-request',(req,res)=>{
