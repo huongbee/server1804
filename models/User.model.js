@@ -82,6 +82,23 @@ class User{
         if(!receiver) throw new Error('Cannot send friend request!')
         return { sender,  receiver }
     }
+    static async removeSendFriendRequest(idReceiver, idSender){
+        const sender = await UserModel.findByIdAndUpdate(
+            { _id: idSender},
+            { 
+                $pull: { sendRequests: idReceiver }
+            }
+        ).select('name email')
+        if(!sender) throw new Error('Cannot remove sent friend request!')
+        const receiver = await UserModel.findByIdAndUpdate(
+            { _id: idReceiver},
+            { 
+                $pull: { receiveRequests: sender._id }
+            }
+        ).select('name email')
+        if(!receiver) throw new Error('Cannot remove received friend request!')
+        return { sender, receiver}
+    }
 }
 
 module.exports = { UserModel, User }
