@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
+
 const parser = require('body-parser').json();
 app.use(parser)
+
 require('./lib/dbconnect')
 const userRouter = require('./controllers/user.router')
 app.use('/user',userRouter);

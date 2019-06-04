@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models/User.model')
+const { authenticte } = require('../lib/authenticate')
 
 
 router.post('/register',(req,res)=>{
@@ -32,13 +33,18 @@ router.post('/login',(req,res)=>{
     }))
 })
 
-router.post('/send-friend-request',(req,res)=>{
+router.post('/send-friend-request',authenticte,(req,res)=>{
     const { idReceiver } = req.body;
-    const { idSender } = ''; // get from token
+    const idSender = req.idUser; // get from token
+    res.send({ 
+        code: 1,
+        data: { idReceiver, idSender },
+        message: ''
+    })
 })
 
 router.post('/remove-send-friend-request',(req,res)=>{
-
+    
 })
 
 router.post('/remove-receive-friend-request',(req,res)=>{
