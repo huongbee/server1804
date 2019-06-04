@@ -7,10 +7,11 @@ const { authenticte } = require('./lib/authenticate')
 
 require('./lib/dbconnect')
 const userRouter = require('./controllers/user.router')
-app.use('/user',userRouter);
-
 const friendRouter = require('./controllers/friend.router')
+const postRouter = require('./controllers/post.router')
+app.use('/user',userRouter);
 app.use('/friend', authenticte, friendRouter);
+app.use('/post', authenticte, postRouter);
 
 
 app.get('/',(req,res)=>{
