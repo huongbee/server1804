@@ -3,10 +3,13 @@ const app = express();
 
 const parser = require('body-parser').json();
 app.use(parser)
+const { authenticte } = require('./lib/authenticate')
 
 require('./lib/dbconnect')
 const userRouter = require('./controllers/user.router')
 app.use('/user',userRouter);
+const friendRouter = require('./controllers/friend.router')
+app.use('/friend', authenticte, friendRouter);
 
 
 app.get('/',(req,res)=>{
