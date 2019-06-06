@@ -32,6 +32,7 @@ router.post('/update',(req,res)=>{
     }))
 })
 router.post('/delete',(req,res)=>{
-
+    
 })
 module.exports = router;
+

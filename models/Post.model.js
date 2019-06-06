@@ -41,5 +41,23 @@ class Post{
         if(!post) throw new Error('Cannot update post!')
         return post;
     }
+    static async detelePost(author, _id){
+        // pull id post in collection users
+        const user = await UserModel.findOne({_id:author})
+        if(!user) throw new Error('Cannot find author');
+        const post = await PostModel.findOne({_id})
+        if(!post) throw new Error('Cannot find post');
+
+        user = await UserModel.findOneAndUpdate(
+            {_id:author},
+            {
+                $pull: { posts: _id }
+            }
+        )
+        if(!user) throw new Error('Cannot update author');
+        post = await PostModel.deleteOne({ _id })
+        if(!post) throw new Error('Cannot delete post!');
+        return true;
+    }
 }
 module.exports = { PostModel, Post}
