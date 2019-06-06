@@ -32,7 +32,21 @@ router.post('/update',(req,res)=>{
     }))
 })
 router.post('/delete',(req,res)=>{
-    
+    const id = req.body.id;
+    const author = req.idUser
+    Post.detelePost(author, id)
+    .then(result=>res.send({
+        code:1,
+        data: result,
+        message: 'Delete successfully!'
+    }))
+    .catch(err=>res.send({
+        code: 0,
+        data: null,
+        message: err.message
+    }))
+
 })
 module.exports = router;
+
 

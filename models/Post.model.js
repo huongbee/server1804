@@ -42,21 +42,20 @@ class Post{
         return post;
     }
     static async detelePost(author, _id){
-        // pull id post in collection users
         const user = await UserModel.findOne({_id:author})
         if(!user) throw new Error('Cannot find author');
         const post = await PostModel.findOne({_id})
         if(!post) throw new Error('Cannot find post');
 
-        user = await UserModel.findOneAndUpdate(
-            {_id:author},
+        const postDeleted = await PostModel.deleteOne({ _id, author })
+        if(postDeleted.deletedCount <= 0) throw new Error('Cannot delete post!');
+        const userUpdate = await UserModel.findOneAndUpdate(
+            { _id: author },
             {
                 $pull: { posts: _id }
             }
         )
-        if(!user) throw new Error('Cannot update author');
-        post = await PostModel.deleteOne({ _id })
-        if(!post) throw new Error('Cannot delete post!');
+        if(!userUpdate) throw new Error('Cannot update author');
         return true;
     }
 }
