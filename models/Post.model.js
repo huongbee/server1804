@@ -32,5 +32,14 @@ class Post{
         )
         return post;
     }
+    static async updatePost(author, _id, content){
+        const post = await PostModel.findOneAndUpdate(
+            { author, _id },
+            { content },
+            { new: true }
+        );
+        if(!post) throw new Error('Cannot update post!')
+        return post;
+    }
 }
 module.exports = { PostModel, Post}

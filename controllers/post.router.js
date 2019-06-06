@@ -17,9 +17,19 @@ router.post('/create',(req,res)=>{
     }))
 })
 router.post('/update',(req,res)=>{
-    // author: token
-    // id post
-    // content
+    const { content, id } = req.body;
+    const author = req.idUser // user logged in
+    Post.updatePost(author, id, content)
+    .then(post=>res.send({
+        code: 1,
+        data: post,
+        message: '',
+    }))
+    .catch(err=>res.send({
+        code: 0,
+        data: null,
+        message: err.message,
+    }))
 })
 router.post('/delete',(req,res)=>{
 
