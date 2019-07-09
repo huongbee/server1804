@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models/User.model')
+const { authenticate } = require('../lib/authenticate')
 
 router.post('/register',(req,res)=>{
     const { email, password, name } = req.body
@@ -25,6 +26,20 @@ router.post('/login',(req,res)=>{
         message: ''
     }))
     .catch(error=>res.send({ 
+        code: 0,
+        data: null,
+        message: error.message
+    }))
+})
+router.post('/check', authenticate, (req, res)=>{
+    const idUser = req.idUser;
+    User.findUser(idUser)
+    .then(user=>res.send({
+        code: 1,
+        data: user,
+        message: ''
+    }))
+    .catch(error=>res.send({
         code: 0,
         data: null,
         message: error.message

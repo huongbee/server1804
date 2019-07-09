@@ -99,6 +99,16 @@ class User{
         if(!receiver) throw new Error('Cannot remove received friend request!')
         return { sender, receiver}
     }
+    static async findUser(_id){
+        const user = await UserModel.findOne({_id})
+        if(!user) throw new Error('Cannot find user!');
+        return {
+            _id: user._id,
+            email: user.email,
+            name: user.name,
+            avatar: user.avatar
+        }
+    }
 }
 
 module.exports = { UserModel, User }
